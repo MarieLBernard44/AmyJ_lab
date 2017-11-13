@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <style media="screen">
+    body {
+      display: flex;
+    }
+
+    .row {
+      display: flex;
+    }
+
+    .cell {
+      width: 10px;
+      height: 10px;
+      border: 1px solid Black;
+      cursor: pointer;
+    }
+
+    #color-picker, #size-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .color {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+  </style>
+  <body>
+    <div id="grid"></div>
+    <div id="color-picker">
+      <button class="color" style="background-color: Red;" onclick="setColor(event)"></button>
+      <button class="color" style="background-color: Yellow;" onclick="setColor(event)"></button>
+      <button class="color" style="background-color: Blue;" onclick="setColor(event)"></button>
+      <button class="color" style="background-color: White;" onclick="setColor(event)"></button>
+    </div>
+    <div id="size-box">
+      <label>X</label>
+      <input type="text" value="40" id="absciss">
+      <label>Y</label>
+      <input type="text" value="30" id="ordinate">
+      <button onclick="draw()">Redraw</button>
+    </div>
+  </body>
+  <script type="text/javascript">
+    var grid;
+    var color;
+
+    function generate(rows, cells) {
+      var container = document.createElement('div');
+      container.className = 'container';
+      for (var r = 0; r < rows; r++) {
+        var row = container.appendChild(document.createElement('div'));
+        row.className = 'row';
+        if (r % 2 != 0) {
+          row.style.margin = '0 0 0 5px';
+        }
+        for (var c = 0; c < cells; c++) {
+          var cell = row.appendChild(document.createElement('div'));
+          cell.className = 'cell';
+          cell.addEventListener('click', colorize, false);
+        }
+      }
+      document.getElementById('grid').innerHTML = '';
+      document.getElementById('grid').appendChild(container);
+    }
+
+    function setColor(event) {
+      color = event.target.style.backgroundColor;
+    }
+    
+    function draw() {
+      var x = parseInt(document.getElementById('absciss').value);
+      var y = parseInt(document.getElementById('ordinate').value);
+      generate(y, x);
+    }
+
+    function colorize(event) {
+      event.target.style.backgroundColor = color;
+    }
+
+    draw();
+  </script>
+</html>
